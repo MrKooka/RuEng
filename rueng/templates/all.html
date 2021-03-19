@@ -1,0 +1,34 @@
+{%extends 'base.html'%}
+
+{%block content%}
+
+	
+	
+	<table class="table table-dark col-4">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Ru</th>
+      <th scope="col">Eng</th>
+      
+    </tr>
+  </thead>
+  <tbody>
+    {%for i in allw%}
+    <tr>
+      <th scope="row">{{i.id}}</th>
+      <td>{{i.ru}}</td>
+      <td><div>{{i.eng}}</div><a class="btn btn-outline-danger  btn-sm mr-3" href="#" role="button">Link</a></td>
+
+    </tr>
+    {%endfor%}
+  </tbody>
+</table>
+	
+
+
+
+
+
+
+{%endblock%}

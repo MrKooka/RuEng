@@ -24,12 +24,13 @@ class SaveSelf:
 
 class App:
 	models = {}
-	app = SaveSelf()
-	db = SaveSelf()
+	# app = SaveSelf()
+	# db = SaveSelf()
 	def __init__(self):
 		self.app = Flask(__name__)
 		self.app.config.from_object(Configurations)
 		self.db =  SQLAlchemy(self.app)
+		pprint(id(self.db))
 		self.models= {}
 
 	def reg_blueprints(self):

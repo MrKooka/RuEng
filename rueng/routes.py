@@ -7,8 +7,10 @@ from flask import render_template
 from flask import request,redirect,url_for
 from app import App
 from flask_login import current_user,login_required
+from pprint import pprint
 app = App()
 db = app.get_db()
+print(id(db))
 @rueng.route('/',methods=['POST','GET'])
 @login_required
 def add():
@@ -32,11 +34,26 @@ def add():
 @login_required
 def all():
 	from .models import RuEng
-	allw = RuEng.query.all()
-	return render_template('all.html',allw=allw,current_user=current_user)
-@rueng.route('/all<w_u>')
-def del_word(w_u):
-	Word_id,user_id = w_u 
-	sql = 'DELETE FROM word_user WHERE Word_id=1 AND user_id =1;'
+	id = current_user.id
+	allw = RuEng.query.filter(RuEng.users.any(id=id)).all()
+	print(allw)
+	return render_template('all.html',current_user=current_user,allw=allw)
 
-	RuEng.query.filter(RuEng.eng.contains(w)).first()
+@rueng.route('/all<word_id>')
+def del_word(word_id):
+	from .models import RuEng
+	user_id = current_user.id
+	# print(word_id)
+	# pprint(user_id)
+	text = r'DELETE FROM word_user WHERE Word_id={user_id} AND user_id={word_id};'.format(user_id=user_id,
+																						word_id=word_id
+																		)
+	db.engine.execute(text)
+
+	w = RuEng.query.filter(RuEng.id == word_id).first()
+	current_db_sessions = db.session.object_session(w)
+	current_db_sessions.commit()
+	allw = RuEng.query.filter(RuEng.users.any(id=user_id)).all()
+
+	return render_template('all.html',current_user=current_user,allw=allw)
+

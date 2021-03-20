@@ -18,7 +18,7 @@
     <tr>
       <th scope="row">{{i.id}}</th>
       <td>{{i.ru}}</td>
-      <td><div>{{i.eng}}</div><a class="btn btn-outline-danger  btn-sm mr-3" href="#" role="button">Link</a></td>
+      <td><div>{{i.eng}}</div><a class="btn btn-outline-danger  btn-sm mr-3" href="{{ url_for('rueng.del_word',word_id=i.id) }}" role="button">Link</a></td>
 
     </tr>
     {%endfor%}

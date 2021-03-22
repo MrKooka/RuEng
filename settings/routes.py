@@ -8,14 +8,11 @@ from .forms import RegisterForm_,LoginForm
 from werkzeug.security import generate_password_hash, check_password_hash
 from app import App
 from flask_login import login_user,logout_user,current_user
+from pprint import pprint
 from flask_login import LoginManager,login_required
+from rueng.models import User
 app = App()
-login_manager = app.get_login_manager()
-RuEng = App.get_model('RuEng')
-User = App.get_model('User')
 db = app.get_db()
-
-
 
 @settings.route('/',methods=['POST','GET'])
 def signup():

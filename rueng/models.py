@@ -50,11 +50,8 @@ App.add_model(RuEng.__name__,RuEng)
 App.add_model(User.__name__,User)
 App.add_model('word_user',word_user)
 
-# login_manager = app.get_login_manager()
+login_manager = app.get_login_manager()
 
-# @login_manager.user_loader
-# def load_user(user_id):
-#     return User.get(user_id)
 # @login_manager.user_loader
 # def user_loader(id):
     # return User.query.filter_by(id=id).first()

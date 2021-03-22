@@ -30,8 +30,11 @@ class App:
 		self.app = Flask(__name__)
 		self.app.config.from_object(Configurations)
 		self.db =  SQLAlchemy(self.app)
-		pprint(id(self.db))
 		self.models= {}
+		self.login_manager = LoginManager()
+		self.login_manager.init_app(self.app)
+		self.login_manager.login_viwe = 'login'
+
 
 	def reg_blueprints(self):
 		from rueng.routes import rueng
@@ -62,20 +65,12 @@ class App:
 		return App.models
 
 	def get_login_manager(self):
-		from rueng.models import User
-		login_manager = LoginManager()
-		login_manager.init_app(self.app)
-		login_manager.login_viwe = 'login'
-		@login_manager.user_loader
-		def user_loader(id):
-			return User.query.filter_by(id=id).first()
-		return login_manager
+		return self.login_manager
 
 app = App()
 
 
 if __name__ == '__main__':
-	app.get_login_manager()
 	app.reg_blueprints()
 	app.get_app().run(debug=True,
 		port = 8000,

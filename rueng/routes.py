@@ -10,7 +10,6 @@ from flask_login import current_user,login_required
 from pprint import pprint
 app = App()
 db = app.get_db()
-print(id(db))
 @rueng.route('/',methods=['POST','GET'])
 @login_required
 def add():

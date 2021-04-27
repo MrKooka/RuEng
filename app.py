@@ -7,7 +7,7 @@ from flask_migrate import Migrate,MigrateCommand
 from flask_script import Manager
 from flask_login import LoginManager
 class Configurations:
-    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:1@localhost:27017/test2'
+    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:1@localhost:27017/rueng'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     DEBUG = True
     SECRET_KEY = 'sdfewr4t56yuikhjmngfbdrew'

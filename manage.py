@@ -1,5 +1,5 @@
 from app import *
-from rueng.models import *
+from models import *
 
 manager = app.migrate()
 

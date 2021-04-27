@@ -1,0 +1,58 @@
+{%extends 'settings/base.html'%}
+
+{%block content%}
+{%if err%}
+<div class="container-fluid">
+  <div class="row text-center">
+	{%include 'rueng/nav.html'%}
+    <div class="col-10">
+        <h2><a  class="ml-5 text-secondary" href="{{ url_for('rueng.add') }}">Добавьте первое слово</a></h2>
+    </div>
+  </div>
+</div>
+{%endif%}
+{% set word = choice(allw) %}
+{%if not err%}
+<div class="container-fluid text-center">
+	<div class="row ">
+		{%include 'rueng/nav.html'%}
+		<div class="col-4 mx-auto mt-4 justify-content-start">
+			{%if alert == 'Неправильно'%}
+				<div class="alert alert-warning mt-3" role="alert">
+					{{alert}}
+				</div>
+
+			{%elif alert == 'Правильно' %}
+				<div class="alert alert-success mt-3" role="alert">
+					{{alert}}
+				</div>
+			{%endif%}
+			<div>
+				<h1>{{word.eng}}</h1>
+				<p>{{word.context}}</p>
+				<div class="accordion" id="accordionExample">
+					<div class="accordion-item">
+						<h2 class="accordion-header" id="headingOne">
+							<button class="btn btn-light text-dark bg-white" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+								Показать слово
+							</button>
+						</h2>
+						<div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+							<div class="accordion-body">
+								<h1>{{word.ru}}</h1>
+							</div>
+						</div>
+					</div>
+				</div>
+					<form action="{{ url_for('rueng.check_word', eng=word.eng) }}" method="POST">
+						<input class="form-control mt-3  mb-3" name='ru' type="text" placeholder="Русская версия">
+						<button type="submit" class="btn btn-primary">Проверить</button>
+					</form>
+				
+				<a class="btn btn-secondary mt-3" href="{{ url_for('rueng.write') }}" role="button">следующее слово</a>
+			</div>
+		</div>
+	</div>
+</div>
+{%endif%}
+{%endblock%}

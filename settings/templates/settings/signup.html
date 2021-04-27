@@ -1,9 +1,16 @@
-{%extends 'base.html'%}
+{%extends 'settings/base.html'%}
 
 {%block content%}
 <h1 class="row col-2 mx-auto flex-column">Регистрация</h1>
+
 <div class="container mt-5 mb-5">
+
 	<div class="row col-5 mx-auto flex-column">
+		{%if alert%}
+			<div class="alert alert-danger" role="alert">
+				{{alert}}
+			</div>
+		{%endif%}
 		<form class="" novalidate method="POST" action="{{url_for('settings.signup')}}">
 			{{form.hidden_tag()}}
 
@@ -38,7 +45,7 @@
 				{% else %}
 					{{ form.username(class_='form-control is-invalid',**{'type':'text','id':'validationEmail'}) }}
 					<div id="validationUsernameFeedback" class="invalid-feedback">
-			      		Имя должено быть больше 4 , но меньше 15 символов
+			      		Имя должно быть больше 4 , но меньше 15 символов
 		   			</div>
 		   		{%endif%}
 			</div>
@@ -49,7 +56,7 @@
 				{% else %}
 					{{ form.password(class_='form-control is-invalid',**{'type':'text','id':'validationPws'}) }}
 					<div id="validationPwsFeedback" class="invalid-feedback">
-			      		Пароль должено быть больше 8 , но меньше 80 символов
+			      		Пароль должно быть больше 8 , но меньше 80 символов
 		   			</div>
 		   		{%endif%}
 		   	</div>

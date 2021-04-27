@@ -1,4 +1,4 @@
-from models import RuEng
+from models import RuEng,Common
 class SaveWordList:
 	def __get__(self,instance, owner):
 		return self.__value
@@ -21,13 +21,19 @@ class Train:
 		allw = RuEng.query.filter(RuEng.users.any(id=self.user_id)).all()
 		return allw
 
+	def get_list_words_for_anon(self,eng=None):
+		if eng:
+			allw = Common.query.filter_by(eng=eng).all() 
+			return allw
+		allw = RuEng.query.filter(RuEng.users.any(id=self.user_id)).all()
+		return allw
+
 	def check_word(self,eng,ru):
-		print('РУсское слово',' ',ru)
-		print('Английское слово',' ',eng)
 		if RuEng.query.filter_by(eng=eng).first().ru == ru:
 			return True
 		else:
 			return False
+
 
 
 

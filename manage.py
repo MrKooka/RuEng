@@ -1,7 +1,6 @@
-from app import *
+from app import manager
 from models import *
 
-manager = app.migrate()
 
 if __name__ == '__main__':
 	manager.run()

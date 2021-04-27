@@ -12,62 +12,47 @@ class Configurations:
     DEBUG = True
     SECRET_KEY = 'sdfewr4t56yuikhjmngfbdrew'
 
-class SaveSelf:
-	def __get__(self,instance, owner):
-		return self.__value
+# class SaveSelf:
+# 	def __get__(self,instance, owner):
+# 		return self.__value
 
-	def __set__(self, instance, value):
-		self.__value = value
+# 	def __set__(self, instance, value):
+# 		self.__value = value
 
-	def __delete__(self,obg):
-		del self.__value
+# 	def __delete__(self,obg):
+# 		del self.__value
 
-class App:
-	models = {}
-	# app = SaveSelf()
-	# db = SaveSelf()
-	def __init__(self):
-		self.app = Flask(__name__)
-		self.app.config.from_object(Configurations)
-		self.db =  SQLAlchemy(self.app)
-		self.models= {}
-		self.login_manager = LoginManager()
-		self.login_manager.init_app(self.app)
-		self.login_manager.login_viwe = 'login'
+# class App:
+# 	# app = SaveSelf()
+# 	# db = SaveSelf()
+# 	def __new__(cls):
+# 		if not hasattr(cls, 'instance'):
+# 			print(cls)
+# 			cls.instance = super(App, cls).__new__(cls)
+# 		return cls.instance
+app = Flask(__name__)
+app.config.from_object(Configurations)
+db =  SQLAlchemy(app)
+		
 
 
-	def reg_blueprints(self):
-		from rueng.routes import rueng
-		from settings.routes import settings
-		from home.routes import home
-		self.app.register_blueprint(home,url_prefix='')
-		self.app.register_blueprint(settings,url_prefix='/settings')
-		self.app.register_blueprint(rueng,url_prefix='/rueng')
+def reg_blueprints(app):
+	from rueng.routes import rueng
+	from settings.routes import settings
+	from home.routes import home
+	app.register_blueprint(home,url_prefix='')
+	app.register_blueprint(settings,url_prefix='/settings')
+	app.register_blueprint(rueng,url_prefix='/rueng')
 
-	def get_db(self):
-		return self.db
+	
+migrate = Migrate(app,db)
+manager = Manager(app)
+manager.add_command('db',MigrateCommand)
 
-	def get_app(self):
-		return self.app
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_viwe = 'login'
 
-	def migrate(self):
-		migrate = Migrate(self.app,self.db)
-		manager = Manager(self.app)
-		manager.add_command('db',MigrateCommand)
-		return manager
-
-	def add_model(model,obj):
-		App.models.update({model:obj})
-
-	def get_model(model):
-		return App.models[model]
-	def get_models_dict():
-		return App.models
-
-	def get_login_manager(self):
-		return self.login_manager
-
-app = App()
 
 
 if __name__ == '__main__':

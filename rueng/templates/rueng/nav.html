@@ -1,9 +1,14 @@
 			<div class="col-4 col-md-4 col-lg-1 navbar-container bg-light text-center"> 
 				<nav class="navbar navbar-expand-md navbar-light">
 						<ul class="">
+							{%if current_user.is_authenticated%}
 							<li class="nav-item">
 								<a class="nav-link" href="{{ url_for('rueng.add') }}">Добавить слово</a>
 							</li class="nav-item">
+							{%endif%}
+							<li class="nav-item">
+								<a class="nav-link" href="{{ url_for('rueng.common') }}">Мой словарь</a>
+							</li >
 							<li class="nav-item">
 								<a class="nav-link" href="{{ url_for('rueng.random') }}">Случайный порядок</a>
 							</li >

@@ -6,10 +6,7 @@ sys.path.insert(0, parent_dir)
 from datetime import datetime 
 from flask_security import UserMixin, RoleMixin
 
-from app import App
-app = App()
-db = app.get_db()
-
+from app import db,login_manager
 word_user = db.Table('word_user',
 					 db.Column('Word_id',db.Integer,db.ForeignKey('user.id')),
 					 db.Column('user_id',db.Integer,db.ForeignKey('ru_eng.id')))
@@ -44,12 +41,19 @@ class User(db.Model,UserMixin):
 
 
 
+class Common(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    ru = db.Column(db.String(80),nullable=False)
+    eng = db.Column(db.String(120),nullable=False)
+    date = db.Column(db.DateTime,default = datetime.now())
+    context = db.Column(db.String(225))
 
+    def __repr__(self):
+        return 'id:{} Ru:{} Eng: {}'.format(self.id,self.ru,self.eng)
 
-
-# @login_manager.user_loader
-# def user_loader(id):
-    # return User.query.filter_by(id=id).first()
+@login_manager.user_loader
+def user_loader(id):
+    return User.query.filter_by(id=id).first()
 
 # @login_manager.request_loader
 # def request_loader(request):

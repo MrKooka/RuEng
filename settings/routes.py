@@ -6,7 +6,7 @@ from . import settings
 from flask import redirect,url_for,render_template,request
 from forms import RegisterForm_,LoginForm
 from werkzeug.security import generate_password_hash, check_password_hash
-from app import App
+from app import db
 from flask_login import login_user,logout_user,current_user
 from pprint import pprint
 from flask_login import LoginManager,login_required
@@ -15,9 +15,6 @@ import logging
 debug_logger = logging.getLogger('debug_logger')
 warning_logger = logging.getLogger('warning_logger')
 error_logger = logging.getLogger('error_logger')
-app = App()
-db = app.get_db()
-
 @settings.route('/',methods=['POST','GET'])
 def signup():
 	debug_logger.debug('Enter to signup function')
@@ -39,6 +36,7 @@ def signup():
 			)
 			db.session.add(new_user)
 			db.session.commit()
+			app.get_login_manager()
 		except:
 			logging.exception(f'unsuccessful attempt add new user to database')
 		return redirect(url_for('settings.login'))

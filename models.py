@@ -8,8 +8,8 @@ from flask_security import UserMixin, RoleMixin
 
 from app import db,login_manager
 word_user = db.Table('word_user',
-					 db.Column('Word_id',db.Integer,db.ForeignKey('user.id')),
-					 db.Column('user_id',db.Integer,db.ForeignKey('ru_eng.id')))
+					 db.Column('uid',db.Integer,db.ForeignKey('user.id')),
+					 db.Column('wid',db.Integer,db.ForeignKey('ru_eng.id')))
 
 
 class RuEng(db.Model):

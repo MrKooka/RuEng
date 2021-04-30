@@ -10,7 +10,7 @@ from wtforms.widgets import TextArea
 class RegisterForm_(FlaskForm):
     email = StringField('Email:',validators=[Email('некорректный email')])
     telegramid = StringField('Ваш Telegram id')
-    username = StringField('Ваше имя', validators=[InputRequired(), Length(min=4, max=15)])
+    username = StringField('Ваше имя', validators=[InputRequired(), Length(min=2, max=15)])
     password = PasswordField('Пароль',validators=[InputRequired(), Length(min=8, max=80)])
     submit = SubmitField('Зарегистрироваться')
 

@@ -53,7 +53,6 @@ def add():
 	id= current_user.id
 
 	allw = RuEng.query.filter(RuEng.users.any(id=id)).all()
-	print(allw)
 	if request.method == "POST":
 
 		user = User.query.filter(User.id.contains(id)).first()
@@ -82,8 +81,8 @@ def del_word(word_id):
 	form = Add_word()
 	from models import RuEng
 	user_id = current_user.id
-	sql = r'DELETE FROM word_user WHERE Word_id={user_id} AND user_id={word_id};'.format(user_id=user_id,
-																						word_id=word_id,form=form
+	sql = r'DELETE FROM word_user WHERE wid={wid} AND uid={uid};'.format(uid=user_id,
+																						wid=word_id,form=form
 																		)
 	db.engine.execute(sql)
 

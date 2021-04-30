@@ -40,7 +40,7 @@ def reg_blueprints(app):
 	from rueng.routes import rueng
 	from settings.routes import settings
 	from home.routes import home
-	app.register_blueprint(home,url_prefix='')
+	app.register_blueprint(home,url_prefix='/')
 	app.register_blueprint(settings,url_prefix='/settings')
 	app.register_blueprint(rueng,url_prefix='/rueng')
 
@@ -55,8 +55,3 @@ login_manager.login_viwe = 'login'
 
 
 
-if __name__ == '__main__':
-	app.reg_blueprints()
-	app.get_app().run(debug=True,
-		port = 8000,
-		host = "0.0.0.0")

@@ -9,5 +9,4 @@ debug_logger = logging.getLogger('debug_logger')
 
 if __name__ == '__main__':
 	reg_blueprints(app)
-
-	app.run(debug=True,port=8000)
+	app.run(debug=True,port =8001)

@@ -2,30 +2,32 @@ import sys,os,inspect
 current_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 parent_dir = os.path.dirname(current_dir)
 sys.path.insert(0, parent_dir)
+from models import RuEng
+
 from flask import Flask,request
 import requests
 from models import RuEng,User,db,word_user
 from pprint import pprint
 from sqlalchemy import create_engine,inspect
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker,scoped_session
+from sqlalchemy.ext.declarative import declarative_base
 import polyglot
 from polyglot.text import Text, Word
 import logging
 from sqlalchemy.sql import text,delete,and_
 import telebot
-
 # import logging.config 
 # from log_settings import logger_config
-
 from requests.adapters import HTTPAdapter
 from requests.packages.urllib3.util.retry import Retry
 from flask_sqlalchemy import SQLAlchemy
+from prettytable import PrettyTable
 
-requests_session = requests.Session()
-retry = Retry(connect=3, backoff_factor=0.5)
-adapter = HTTPAdapter(max_retries=retry)
-requests_session.mount('http://', adapter)
-requests_session.mount('https://', adapter)
+# requests_session = requests.Session()
+# retry = Retry(connect=3, backoff_factor=0.5)
+# adapter = HTTPAdapter(max_retries=retry)
+# requests_session.mount('http://', adapter)
+# requests_session.mount('https://', adapter)
 
 # logging.config.dictConfig(logger_config)
 # debug_logger = logging.getLogger('debug_logger')
@@ -37,20 +39,25 @@ console_handler.setFormatter(std_format)
 debug_logger.addHandler(console_handler)
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:1@localhost:27017/rueng'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-db = SQLAlchemy(app)
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:1@localhost:27017/rueng'
+# app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+# db = SQLAlchemy(app)
 
 
-# engine = create_engine('mysql+pymysql://root:1@localhost:27017/rueng')
+engine = create_engine('mysql+pymysql://root:1@localhost:27017/rueng')
+session = scoped_session(sessionmaker(autocommit=False,autoflush=False,bind=engine))
+Base = declarative_base()
+Base.query = session.query_property()
+from models import *
+Base.metadata.creat_all(bind=engine)
 # Session = sessionmaker(bind=engine)
 # session = Session()
 # conn = engine.connect()
-token = ""
+token = "1771178136:AAGu6w8JF8UkXSuKbo36_ozRTo2phCXYFnw"
 #https://e50fc96bbb56.ngrok.io
-from prettytable import PrettyTable
 
 def send_msg(data):
+	print(data)
 	debug_logger.debug('Вход в send_msg')
 	bot = telebot.TeleBot('1771178136:AAGu6w8JF8UkXSuKbo36_ozRTo2phCXYFnw')
 	bot.send_message(data['chat_id'], data['text'],parse_mode=data['parse_mode'])
@@ -67,12 +74,12 @@ def make_table(chat_id,utid):
 		allw = RuEng.query.filter(RuEng.users.any(id=user_id)).all()
 	except:
 		debug_logger.exception('Ошибка в make_table')
-		data = {'chat_id':chat_id,'text':'Что то пошло не так, попробуй еще раз'}
+		data = {'chat_id':chat_id,'text':'Что то пошло не так, попробуй еще раз','parse_mode':None}
 		send_msg(data)
 		return
 
 	x = PrettyTable()
-	x.field_names = ["id", "ru", "eng"]
+	x.field_names = ["id","ru","eng"]
 
 	for i in allw:
 		x.add_rows([[i.id,i.ru,i.eng]])
@@ -83,6 +90,7 @@ def make_table(chat_id,utid):
 
 def add_word(chat_id,ru,eng,utid,context=None):
 	try:
+
 		debug_logger.debug('Запуск add_word')
 
 		user = User.query.filter(User.telegramid == utid).first()
@@ -117,9 +125,12 @@ def del_word(chat_id,word_id,utid):
 																			 # user_id=user_id))
 		# stmt = word_user.delete((and_(word_user.columns.uid==user_id,word_user.columns.wid == word_id)))
 		stmt = delete(word_user).where(and_(word_user.columns.uid==user_id, word_user.columns.wid==word_id))
-		db.engine.execute(stmt)
+		# word_user.query.filter(and_(word_user.columns.uid==user_id, word_user.columns.wid==word_id)).delete()
+		# db.engine.execute(stmt)
+
 		db.session.commit()
-		db.session.close()
+		db.session.add(RuEng)
+		db.session.refresh(RuEng)
 		# db.session.expunge(stmt)
 
 		data = {'chat_id':chat_id,'text':'Слово удалено','parse_mode':None}
@@ -187,6 +198,7 @@ def parse_message(chat_id,text,utid):
 def receive_update():
 	if request.method == "POST":
 		try:
+
 			debug_logger.debug(f'POST запрос от пользователя запрос:{request.json}')
 			chat_id = request.json["message"]["chat"]["id"]
 			text = request.json["message"]['text']
@@ -202,6 +214,8 @@ def receive_update():
 
 	return {"ok": True}
 
-
+@app.teardown_appcontext
+def shutdown_session(exception=None):
+	session.remove()
 if __name__ == '__main__':
 	app.run(debug=True)

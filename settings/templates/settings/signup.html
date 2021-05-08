@@ -15,7 +15,7 @@
 			{{form.hidden_tag()}}
 
 			<div class="mb-3">
-				{{ form.email.label(class_='form-label',**{'for':'validationEmail'}) }}
+				{{ form.email.label(class_='form-label required',**{'for':'validationEmail'}) }}
 				{%if not form.email.errors%}
 					 {{ form.email(class_='form-control',**{'type':'text','id':'validationEmail'}) }}
 				{% else %}
@@ -39,7 +39,7 @@
 		   	</div>
 
 			<div class="mb-3">
-				{{form.username.label(class_='form-label',**{'for':'validationUsername'})}} 
+				{{form.username.label(class_='form-label required',**{'for':'validationUsername'})}} 
 				{% if not form.username.errors %}
 					{{form.username(class_='form-control',**{'id':'validationUsername'})}}
 				{% else %}
@@ -50,7 +50,7 @@
 		   		{%endif%}
 			</div>
 			<div class="mb-3">
-				{{form.password.label(class_='form-label',**{'for':'validationPsw'})}} 
+				{{form.password.label(class_='form-label required',**{'for':'validationPsw'})}} 
 				{% if not form.password.errors %}
 					{{form.password(class_='form-control',**{'id':'validationPsw'})}}
 				{% else %}
@@ -66,7 +66,11 @@
 		</form>
 	</div>
 </div>
-
+<style type="text/css">
+.required:after {
+  content:"*";
+  color:red;
+}</style>
 
 
 {%endblock%}

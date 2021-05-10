@@ -59,7 +59,7 @@ token = ""
 def send_msg(data):
 	print(data)
 	debug_logger.debug('Вход в send_msg')
-	bot = telebot.TeleBot('1771178136:AAGu6w8JF8UkXSuKbo36_ozRTo2phCXYFnw')
+	bot = telebot.TeleBot('')
 	bot.send_message(data['chat_id'], data['text'],parse_mode=data['parse_mode'])
 
 	# method = "sendMessage"

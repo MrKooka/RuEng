@@ -53,7 +53,7 @@ Base.metadata.creat_all(bind=engine)
 # Session = sessionmaker(bind=engine)
 # session = Session()
 # conn = engine.connect()
-token = "1771178136:AAGu6w8JF8UkXSuKbo36_ozRTo2phCXYFnw"
+token = ""
 #https://e50fc96bbb56.ngrok.io
 
 def send_msg(data):

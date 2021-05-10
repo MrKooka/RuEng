@@ -3,7 +3,7 @@ import json
 import requests
 from pprint import pprint
 app = Flask(__name__)
-token = "1752025711:AAGNhNTZqn2B5ryID7YM6dICU5Ao4r517Pg"
+token = ""
 URL = f"https://api.telegram.org/bot{token}/"
 print(URL)
 def write_json(data,filename = 'answer.json'):

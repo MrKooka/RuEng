@@ -11,6 +11,7 @@ class Configurations:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     DEBUG = True
     SECRET_KEY = 'sdfewr4t56yuikhjmngfbdrew'
+    MAX_CONTENT_LENGTH = 1024 * 1024 # Обьем в байтах 
 
 # class SaveSelf:
 # 	def __get__(self,instance, owner):

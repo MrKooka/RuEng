@@ -25,20 +25,40 @@ class RuEng(db.Model):
 
 
 class User(db.Model,UserMixin):
-  id = db.Column(db.Integer(),primary_key=True)
-  email = db.Column(db.String(100),unique=True)
-  telegramid = db.Column(db.String(255))
-  password = db.Column(db.String(255))
-  username = db.Column(db.String(15))
-  active = db.Column(db.Boolean())
+    id = db.Column(db.Integer(),primary_key=True)
+    email = db.Column(db.String(100),unique=True)
+    telegramid = db.Column(db.String(255))
+    password = db.Column(db.String(255))
+    username = db.Column(db.String(15))
+    active = db.Column(db.Boolean())
+    avatar = db.Column(db.Binary)
+    
+
+    def __init__(self,*args,**kwargs):
+      super(User,self).__init__(*args,**kwargs)
+
+    def __repr__(self):
+      return 'id: {}, name: {}'.format(self.id,self.username)
 
 
-  def __init__(self,*args,**kwargs):
-  	super(User,self).__init__(*args,**kwargs)
+    def getAvatar(self,app):
+      from pprint import pprint
+      pprint(app.root_path)
+      img = None
+      if not self.avatar:
+        pprint(self.avatar)
+        try:
+        
+          with open(app.root_path+'/templates/images/avatar2.png','rb') as f:
+            img = f.read()
 
-  def __repr__(self):
-  	return 'id: {}, name: {}'.format(self.id,self.username)
+        except Exception as e:
+          print('Ошибка:',str(e))
+      else:
+        img = self.avatar
 
+
+      return img
 
 
 class Common(db.Model):

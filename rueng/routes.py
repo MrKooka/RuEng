@@ -31,7 +31,7 @@ def common():
 
 	id= current_user.id
 	allw = RuEng.query.filter(RuEng.users.any(id=id)).all()
-	return render_template('rueng/example.html',allw=allw)
+	return render_template('home/profile.html',allw=allw)
 
 	# if request.method =='POST':
 		# print(allw)

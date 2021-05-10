@@ -32,7 +32,8 @@ def signup():
 			new_user = User(email = form.email.data,
 						telegramid = form.telegramid.data,
 						password =hashed_pass,
-						username = form.username.data
+						username = form.username.data,
+						avatar = None
 			)
 			db.session.add(new_user)
 			db.session.commit()

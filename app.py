@@ -7,30 +7,15 @@ from flask_migrate import Migrate,MigrateCommand
 from flask_script import Manager
 from flask_login import LoginManager
 class Configurations:
-    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:1@localhost:27017/rueng'
+	#server
+	SQLALCHEMY_DATABASE_URI='mysql+pymysql://kooka2:1@localhost:3306/rueng'
+    #SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:1@localhost:27017/rueng'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     DEBUG = True
     SECRET_KEY = 'sdfewr4t56yuikhjmngfbdrew'
     MAX_CONTENT_LENGTH = 1024 * 1024 # Обьем в байтах 
 
-# class SaveSelf:
-# 	def __get__(self,instance, owner):
-# 		return self.__value
 
-# 	def __set__(self, instance, value):
-# 		self.__value = value
-
-# 	def __delete__(self,obg):
-# 		del self.__value
-
-# class App:
-# 	# app = SaveSelf()
-# 	# db = SaveSelf()
-# 	def __new__(cls):
-# 		if not hasattr(cls, 'instance'):
-# 			print(cls)
-# 			cls.instance = super(App, cls).__new__(cls)
-# 		return cls.instance
 app = Flask(__name__)
 app.config.from_object(Configurations)
 db =  SQLAlchemy(app)

@@ -31,7 +31,7 @@ class User(db.Model,UserMixin):
     password = db.Column(db.String(255))
     username = db.Column(db.String(15))
     active = db.Column(db.Boolean())
-    avatar = db.Column(db.Binary)
+    avatar = db.Column(db.LargeBinary(1024*1024))
     
 
     def __init__(self,*args,**kwargs):

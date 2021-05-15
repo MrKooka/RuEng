@@ -59,7 +59,6 @@ def upload():
 		file = request.files['file']
 		if file  and verifyExt(file.filename):
 			try:
-				pprint('ddasdddddddddddddddddddddddf')
 				img = file.read()
 				user = User.query.filter(User.id == current_user.id).first()
 				user.avatar = img

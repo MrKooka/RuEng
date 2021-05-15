@@ -15,7 +15,7 @@ class BotDebugsHandler(logging.Handler):
     def emit(self,record):
 
         message = self.format(record)
-        token = '1601273734:AAFQyS1ZWnEnwpScf9T7jNofLCRg8iMTtV0'
+        token = ''
         url = f"https://api.telegram.org/bot{token}/sendMessage"
         data = {"chat_id": '-1001182116382,',"text": message}
         session.get(url,data=data)
@@ -27,7 +27,7 @@ class BotErrorsHandler(logging.Handler):
 
     def emit(self,record):
         message = self.format(record)
-        token = '1721979484:AAEX_ADy2jrMlMzZUJRP7ijeG2Rt-DCU1Mk'
+        token = ''
         url = f"https://api.telegram.org/bot{token}/sendMessage"
         data = {"chat_id": '-1001290697961,',"text": message}
         session.get(url,data=data)

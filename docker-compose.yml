@@ -1,0 +1,30 @@
+version: "3.7"
+
+services:
+  app:
+    build: .
+    restart: always
+    ports:
+      - "5000:5000"
+    environment:
+    - SQLALCHEMY_DATABASE_URI=${SQLALCHEMY_DATABASE_URI}
+    - SECRET_KEY=${SECRET_KEY}
+
+  mysql:
+    image: mysql:5.7
+    restart: always
+    volumes:
+      - todo-mysql-data:/var/lib/mysql
+    ports:
+      - "27017:3306"
+    environment:
+      - MYSQL_HOST=${MYSQL_HOST}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+
+
+volumes:
+  todo-mysql-data:
+
+
+

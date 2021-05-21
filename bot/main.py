@@ -16,21 +16,11 @@ from polyglot.text import Text, Word
 import logging
 from sqlalchemy.sql import text,delete,and_
 import telebot
-# import logging.config 
-# from log_settings import logger_config
 from requests.adapters import HTTPAdapter
 from requests.packages.urllib3.util.retry import Retry
 from flask_sqlalchemy import SQLAlchemy
 from prettytable import PrettyTable
 
-# requests_session = requests.Session()
-# retry = Retry(connect=3, backoff_factor=0.5)
-# adapter = HTTPAdapter(max_retries=retry)
-# requests_session.mount('http://', adapter)
-# requests_session.mount('https://', adapter)
-
-# logging.config.dictConfig(logger_config)
-# debug_logger = logging.getLogger('debug_logger')
 debug_logger = logging.getLogger()
 debug_logger.setLevel('DEBUG')
 std_format = logging.Formatter(fmt = '{asctime} - {levelname} - {name} - {message}', style = '{')
@@ -39,12 +29,8 @@ console_handler.setFormatter(std_format)
 debug_logger.addHandler(console_handler)
 
 app = Flask(__name__)
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:1@localhost:27017/rueng'
-# app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-# db = SQLAlchemy(app)
 
-
-engine = create_engine('mysql+pymysql://root:1@localhost:27017/rueng')
+engine = create_engine('mysql+pymysql://root:1@localhost:27017/rueng',echo=True)
 session = scoped_session(sessionmaker(autocommit=False,autoflush=False,bind=engine))
 Base = declarative_base()
 Base.query = session.query_property()
@@ -53,7 +39,7 @@ Base.metadata.creat_all(bind=engine)
 # Session = sessionmaker(bind=engine)
 # session = Session()
 # conn = engine.connect()
-token = ""
+token = "1771178136:AAGu6w8JF8UkXSuKbo36_ozRTo2phCXYFnw"
 #https://e50fc96bbb56.ngrok.io
 
 def send_msg(data):

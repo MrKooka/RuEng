@@ -1,3 +1,4 @@
+import os 
 from flask import Flask,render_template,request,redirect,url_for
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
@@ -9,11 +10,11 @@ from flask_login import LoginManager
 class Configurations:
 	#server
 	# SQLALCHEMY_DATABASE_URI='mysql+pymysql://kooka2:1@localhost:3306/rueng'
-	SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:1@localhost:27017/rueng'
-	SQLALCHEMY_TRACK_MODIFICATIONS = False
-	DEBUG = True
-	SECRET_KEY = 'sdfewr4t56yuikhjmngfbdrew'
-	MAX_CONTENT_LENGTH = 1024 * 1024 # Обьем в байтах 
+ 	SQLALCHEMY_DATABASE_URI = os.environ.get('SQLALCHEMY_DATABASE_URI')
+ 	SQLALCHEMY_TRACK_MODIFICATIONS = False
+ 	DEBUG = True
+ 	SECRET_KEY = os.environ.get('SECRET_KEY')
+ 	MAX_CONTENT_LENGTH = 1024 * 1024 # Обьем в байтах 
 
 
 app = Flask(__name__)

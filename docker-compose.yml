@@ -14,7 +14,7 @@ services:
     image: mysql:5.7
     restart: always
     volumes:
-      - todo-mysql-data:/var/lib/mysql
+      - rueng-mysql-data:/var/lib/mysql
     ports:
       - "27017:3306"
     environment:

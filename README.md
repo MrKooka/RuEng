@@ -1,6 +1,6 @@
 # RuEng 
 ### Русско-английский словарь
-Функции: 
+Функции:       
 Добавить слово: ruengdict.ru/rueng/    
 Тренировать в случайном порядке: ruengdict.ru/rueng/random     
 Тренировать написание слов: ruengdict.ru/rueng/write     
